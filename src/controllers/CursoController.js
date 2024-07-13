@@ -5,11 +5,9 @@ class CursoController {
     try {
       const { nome, duracao } = request.body;
       if (!nome || typeof nome !== "string" || nome.trim() === "") {
-        return response
-          .status(400)
-          .json({
-            message: "O nome é obrigatório e deve ser uma string não vazia.",
-          });
+        return response.status(400).json({
+          message: "O nome é obrigatório e deve ser uma string não vazia.",
+        });
       }
 
       if (!duracao || typeof duracao !== "number" || duracao <= 0) {
@@ -22,6 +20,20 @@ class CursoController {
     } catch (error) {
       response.status(500).json({
         mensagem: "Houve um erro ao cadastrar o curso",
+      });
+    }
+  }
+
+  async listaTodos(request, response) {
+    try {
+      const cursos = await Curso.findAll({
+        attributes: [["id", "identificador"], "nome", "duracao"],
+        order: [["duracao", "DESC"]],
+      });
+      response.json(cursos);
+    } catch (error) {
+      response.status(500).json({
+        mensagem: "Houve um erro ao listar os curso",
       });
     }
   }
