@@ -57,6 +57,47 @@ class CursoController {
       });
     }
   }
+
+  async atualizar(request, response) {
+    try {
+      const id = request.params.id;
+      const dados = request.body;
+
+      if (
+        dados.nome &&
+        (typeof dados.nome !== "string" || dados.nome.trim() === "")
+      ) {
+        return response
+          .status(400)
+          .json({ message: "O nome deve ser uma string não vazia." });
+      }
+
+      if (
+        dados.duracao &&
+        (typeof dados.duracao !== "number" || dados.duracao <= 0)
+      ) {
+        return response
+          .status(400)
+          .json({ message: "A duração deve ser um número inteiro positivo." });
+      }
+
+      const curso = await Curso.findByPk(id);
+
+      if (!curso) {
+        response.status(404).json({ mensagem: "Curso não encontrado" });
+      }
+
+      if (curso.nome) curso.nome = dados.nome;
+      if (curso.duracao) curso.duracao = dados.duracao;
+      await curso.save();
+
+      response.json(curso);
+    } catch (error) {
+      response.status(500).json({
+        mensagem: "Houve um erro ao atualizar o curso",
+      });
+    }
+  }
 }
 
 module.exports = new CursoController();
