@@ -37,6 +37,26 @@ class CursoController {
       });
     }
   }
+
+  async listarUm(request, response) {
+    try {
+      const id = request.params.id;
+
+      const curso = await Curso.findByPk(id, {
+        attributes: ["nome", "duracao"],
+      });
+
+      if (!curso) {
+        response.status(404).json({ mensagem: "Não foi encontrado o curso" });
+      }
+
+      response.json(curso);
+    } catch (error) {
+      response.status(500).json({
+        mensagem: "Houve um erro ao listar o curso",
+      });
+    }
+  }
 }
 
 module.exports = new CursoController();
