@@ -1,11 +1,7 @@
-const { Router } = require('express')
+const { Router } = require("express");
+const cursosRoutes = require("./cursos.routes");
 
-const routes = new Router()
+const routes = new Router();
 
-/* coloque  suas rotas aqui */
-
-routes.get('/', (request, response) => {
-    response.send("Bem vindo")
-})
-
-module.exports = routes
+routes.use("/cursos", cursosRoutes);
+module.exports = routes;
