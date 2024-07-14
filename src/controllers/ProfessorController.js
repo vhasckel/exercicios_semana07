@@ -129,6 +129,25 @@ class ProfessorController {
       });
     }
   }
+
+  async deletar(request, response) {
+    try {
+      const id = request.params.id;
+      const professor = await Professor.findByPk(id);
+
+      if (!professor) {
+        response.status(404).json({ mensagem: "professor não encontrado" });
+      }
+
+      await professor.destroy();
+
+      response.status(204).json();
+    } catch (error) {
+      response.status(500).json({
+        mensagem: "Houve um erro ao deletar professor",
+      });
+    }
+  }
 }
 
 module.exports = new ProfessorController();
