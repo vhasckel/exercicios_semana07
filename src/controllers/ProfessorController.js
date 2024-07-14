@@ -53,6 +53,26 @@ class ProfessorController {
       });
     }
   }
+
+  async listarUm(request, response) {
+    try {
+      const id = request.params.id;
+
+      const professor = await Professor.findByPk(id, {
+        attributes: ["nome", "sobrenome", "email"],
+      });
+
+      if (!professor) {
+        response.status(404).json({ mensagem: "Professor não encontrado" });
+      }
+
+      response.json(professor);
+    } catch (error) {
+      response.status(500).json({
+        mensagem: "Houve um erro ao buscar professor",
+      });
+    }
+  }
 }
 
 module.exports = new ProfessorController();
