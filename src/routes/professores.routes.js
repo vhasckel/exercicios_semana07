@@ -4,5 +4,9 @@ const ProfessorController = require("../controllers/ProfessorController");
 const professoresRoutes = new Router();
 
 professoresRoutes.post("/", ProfessorController.criar);
+professoresRoutes.get("/", ProfessorController.listaTodos);
+professoresRoutes.get("/:id", ProfessorController.listarUm);
+professoresRoutes.put("/:id", ProfessorController.atualizar);
+professoresRoutes.delete("/:id", ProfessorController.deletar);
 
 module.exports = professoresRoutes;
