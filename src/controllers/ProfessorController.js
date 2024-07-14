@@ -39,6 +39,20 @@ class ProfessorController {
       });
     }
   }
+
+  async listaTodos(request, response) {
+    try {
+      const professores = await Professor.findAll({
+        attributes: [["id", "identificador"], "nome", "sobrenome", "email"],
+        order: [["nome", "ASC"]],
+      });
+      response.json(professores);
+    } catch (error) {
+      response.status(500).json({
+        mensagem: "Houve um erro ao listar professores",
+      });
+    }
+  }
 }
 
 module.exports = new ProfessorController();
